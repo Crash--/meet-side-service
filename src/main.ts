@@ -1,13 +1,15 @@
+import { createLogger } from '@linagora/twake-node-telemetry';
 import * as Sentry from '@sentry/node';
 import { loadConfig } from './config.js';
 import { createConsumer } from './infra/consumer.js';
 import { createOpsServers } from './infra/http.js';
-import { logger } from './infra/logger.js';
 import { createMetrics } from './infra/metrics.js';
 import { buildLanguageMapper } from './modules/settings/language.js';
 import { createLintoClient } from './product/api.js';
 import { createDbClient } from './product/db.js';
 import type { LintoClient } from './product/port.js';
+
+const logger = createLogger({ service: 'meet-side-service' });
 
 // process.exit drops what Sentry has not sent yet.
 const exit = async (code: number): Promise<never> => {
